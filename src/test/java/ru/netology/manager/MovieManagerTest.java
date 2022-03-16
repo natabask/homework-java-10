@@ -1,13 +1,17 @@
 package ru.netology.manager;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import ru.netology.domain.MovieItem;
+import ru.netology.repository.MovieRepository;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
-// используем конструктор без аргументов, выдаются последние 10 добавленных фильмов (значение по умолчанию)
 public class MovieManagerTest {
-    private MovieManager manager = new MovieManager();
+    private MovieRepository repository = Mockito.mock(MovieRepository.class);
+    private MovieManager manager = new MovieManager(repository);
     private MovieItem first = new MovieItem(1, "bloodshot.jpg", "Bloodshot", "action", false);
     private MovieItem second = new MovieItem(2, "onward.jpg", "Onward", "cartoon", false);
     private MovieItem third = new MovieItem(3, "hotel_belgrade.jpg", "Hotel Belgrade", "comedy", false);
@@ -17,80 +21,16 @@ public class MovieManagerTest {
     private MovieItem seventh = new MovieItem(7, "number_one.jpg", "Number One", "comedy", true);
 
     @Test
-    // Выводим "пустой" список
-    public void shouldReturnIfEmpty() {
+    // Вывод массива
+    public void shouldFindAll() {
+        MovieItem[] returned = {first, second, third, fourth};
+        doReturn(returned).when(repository).findAll();
 
-        MovieItem[] actual = manager.getLatest();
-        MovieItem[] expected = new MovieItem[0];
+        MovieItem[] actual = manager.getAll();
+        MovieItem[] expected = new MovieItem[]{fourth, third, second, first};
 
-        assertArrayEquals(expected, actual);
-    }
+        assertArrayEquals(actual, expected);
 
-    @Test
-    // Выводим "список" из 1-го фильма
-    public void shouldReturnIfOne() {
-        manager.add(first);
-
-        MovieItem[] actual = manager.getLatest();
-        MovieItem[] expected = new MovieItem[]{first};
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    // Выводим список фильмов, количество меньше максимального = 10
-    public void shouldReturnIfNotEmpty() {
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-        manager.add(fourth);
-        manager.add(fifth);
-        manager.add(sixth);
-
-        MovieItem[] actual = manager.getLatest();
-        MovieItem[] expected = new MovieItem[]{sixth, fifth, fourth, third, second, first};
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    // Выводим список фильмов, количество = максимальному = 10
-    public void shouldReturnIfMax() {
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-        manager.add(fourth);
-        manager.add(fifth);
-        manager.add(sixth);
-        manager.add(seventh);
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-
-        MovieItem[] actual = manager.getLatest();
-        MovieItem[] expected = new MovieItem[]{third, second, first, seventh, sixth, fifth, fourth, third, second, first};
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    // Выводим список фильмов, количество больше максимального = 10
-    public void shouldReturnIfMoreThanMax() {
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-        manager.add(fourth);
-        manager.add(fifth);
-        manager.add(sixth);
-        manager.add(seventh);
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-        manager.add(fourth);
-
-        MovieItem[] actual = manager.getLatest();
-        MovieItem[] expected = new MovieItem[]{fourth, third, second, first, seventh, sixth, fifth, fourth, third, second};
-
-        assertArrayEquals(expected, actual);
+        verify(repository).findAll();
     }
 }

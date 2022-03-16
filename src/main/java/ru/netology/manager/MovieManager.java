@@ -1,41 +1,30 @@
 package ru.netology.manager;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import ru.netology.domain.MovieItem;
+import ru.netology.repository.MovieRepository;
 
-@NoArgsConstructor
-@Data
 public class MovieManager {
-    private int movieAmount = 10;
-    private MovieItem[] movies = new MovieItem[0];
+    private MovieRepository repository;
 
-    public MovieManager(int movieAmount) {
-        this.movieAmount = movieAmount;
+    public MovieManager(MovieRepository repository) {
+        this.repository = repository;
     }
 
     public void add(MovieItem movie) {
-        int length = movies.length + 1;
-        MovieItem[] tmp = new MovieItem[length];
-        System.arraycopy(movies, 0, tmp, 0, movies.length);
-        int lastIndex = tmp.length - 1;
-        tmp[lastIndex] = movie;
-        movies = tmp;
+        repository.save(movie);
     }
 
-    public MovieItem[] getLatest() {
-        int resultLength = 0;
-        if (movies.length > movieAmount) {
-            resultLength = movieAmount;
-        } else {
-            resultLength = movies.length;
-        }
-        MovieItem[] result = new MovieItem[resultLength];
-        for (int i = 0; i < resultLength; i++) {
+    public MovieItem[] getAll() {
+        MovieItem[] movies = repository.findAll();
+        MovieItem[] result = new MovieItem[movies.length];
+        for (int i = 0; i < result.length; i++) {
             int index = movies.length - i - 1;
             result[i] = movies[index];
         }
         return result;
+    }
+
+    public void removeById(int id) {
+        repository.removeById(id);
     }
 }
