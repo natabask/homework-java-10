@@ -66,7 +66,7 @@
                             <rules>
                                 <rule>
                                     <includes>
-                                        <include>MovieManager</include>
+                                            <include>MovieManager</include>
                                     </includes>
                                     <limits>
                                         <limit>

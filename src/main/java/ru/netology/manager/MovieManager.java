@@ -1,6 +1,5 @@
 package ru.netology.manager;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.netology.domain.MovieItem;
@@ -22,6 +21,10 @@ public class MovieManager {
         int lastIndex = tmp.length - 1;
         tmp[lastIndex] = movie;
         movies = tmp;
+    }
+
+    public MovieItem[] findAll() {
+        return movies;
     }
 
     public MovieItem[] getLatest() {
