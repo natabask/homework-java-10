@@ -47,7 +47,9 @@ class MovieRepositoryTest {
         repo.save(second);
         repo.save(third);
 
-        MovieItem[] actual = repo.removeAll();
+        repo.removeAll();
+
+        MovieItem[] actual = repo.findAll();
         MovieItem[] expected = new MovieItem[]{};
 
         assertArrayEquals(actual, expected);
