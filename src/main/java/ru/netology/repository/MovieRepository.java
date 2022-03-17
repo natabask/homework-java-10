@@ -26,10 +26,10 @@ public class MovieRepository {
         movies = tmp;
     }
 
-    public MovieItem[] findById(int id) {
-        for (int i = 0; i < movies.length; i++) {
-            if (movies[i].getId() == id) {
-                return new MovieItem[]{movies[i]};
+    public MovieItem findById(int id) {
+        for (MovieItem movie : movies) {
+            if (movie.getId() == id) {
+                return movie;
             }
         }
         return null;
@@ -49,7 +49,7 @@ public class MovieRepository {
     }
 
     public MovieItem[] removeAll() {
-        MovieItem[] result = new MovieItem[0];
-        return result;
+        movies = new MovieItem[]{};
+        return movies;
     }
 }

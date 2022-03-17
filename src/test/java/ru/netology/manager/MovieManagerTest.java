@@ -16,9 +16,6 @@ public class MovieManagerTest {
     private MovieItem second = new MovieItem(2, "onward.jpg", "Onward", "cartoon", false);
     private MovieItem third = new MovieItem(3, "hotel_belgrade.jpg", "Hotel Belgrade", "comedy", false);
     private MovieItem fourth = new MovieItem(4, "gentlemen.jpg", "Gentlemen", "action", false);
-    private MovieItem fifth = new MovieItem(5, "invisible_man.jpg", "Invisible man", "horror", false);
-    private MovieItem sixth = new MovieItem(6, "trolls.jpg", "Trolls", "cartoon", true);
-    private MovieItem seventh = new MovieItem(7, "number_one.jpg", "Number One", "comedy", true);
 
     @Test
     // Вывод массива
